@@ -1,0 +1,32 @@
+<!-- <app-dynamic-form
+[dynamicformSchema]="formSchemas"
+[currentCollection]="currentCollection"
+></app-dynamic-form> -->
+<h2>{{currentCollection?.name}}</h2>
+<button type="button" class="btn btn-primary me-2" (click)="goTopage('/formview/formgenerate')">
+        Create new Entry
+</button>
+<app-dynamic-form-datatable *ngIf="storedTableData.length" 
+    [includeHeaders]="tableFields" 
+    [tabledata]="storedTableData" 
+    [editFunc]="editf"
+    [deleteFunc]="deletef"
+    ></app-dynamic-form-datatable>
+
+    <!-- <button #actionModalButton data-bs-toggle="modal" data-bs-target="#tableActionModal" hidden type="button"></button>
+    <div class="modal fade" id="tableActionModal" tabindex="-1" aria-labelledby="tableActionModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="tableActionModalLabel">actions</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <app-dynamic-form
+            [dynamicformSchema]="editCollectionSchema"
+            [editData]="editDataShow"
+            ></app-dynamic-form>
+          </div>
+        </div>
+      </div>
+    </div> -->

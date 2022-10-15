@@ -1,0 +1,48 @@
+<h3>Users Create Form</h3>
+<form *ngIf="userFormGroupHolder" [formGroup]="userFormGroupHolder" (submit)="createUser()">
+    <ng-container *ngFor="let collectionConfig of createUserformschema | keyvalue">
+        <div class="mb-3" *ngIf="['id','name','useremail','userpassword'].includes(collectionConfig.key)">
+            <label class="form-label">{{collectionConfig.key}} <span class="text-danger"
+                    *ngIf="userFormGroupHolder.get(collectionConfig.key)?.hasError('required')">*</span></label>
+            <input type="text" [formControlName]="collectionConfig.key" class="form-control"
+                placeholder="Example input placeholder">
+            <span class="text-danger" *ngIf="errorShowOnSubmit && userFormGroupHolder.get(collectionConfig.key)?.hasError('required')">this
+                filed is required</span>
+                <!-- <span class="text-danger"
+                    *ngIf="errorShowOnSubmit && userFormGroupHolder.controls[collectionConfig.key].errors && userFormGroupHolder.controls[collectionConfig.key].errors!['required']">this
+                    filed is required</span> -->
+                    <span class="text-danger"
+                    *ngIf="errorShowOnSubmit && userFormGroupHolder.controls[collectionConfig.key].errors && userFormGroupHolder.controls[collectionConfig.key].errors!['minlength']">this
+                    field needs minimum
+                    {{userFormGroupHolder.controls[collectionConfig.key].errors!['minlength']['requiredLength']}}
+                    charectars</span>
+                <span class="text-danger"
+                    *ngIf="errorShowOnSubmit && userFormGroupHolder.controls[collectionConfig.key].errors && userFormGroupHolder.controls[collectionConfig.key].errors!['maxlength']">you
+                    can give maximum
+                    {{userFormGroupHolder.controls[collectionConfig.key].errors!['maxlength']['requiredLength']}}
+                    charectars</span>
+                
+        </div>
+        <div class="mb-3" *ngIf="collectionConfig.key === 'type'">
+            <ng-select [items]="usersOption" (change)="showCollectionDroplist($event)" placeholder="add user type"
+                [formControlName]="collectionConfig.key">
+            </ng-select>
+            <div class="mb-3" *ngIf="collectionDropShow">
+                <!-- <ng-select [items]="collectionsLists" bindLabel="name" bindValue="id" [addTag]="true" [multiple]="true"
+                    placeholder="add select options" [formControlName]="collectionConfig.key"> -->
+                <ng-select [items]="collectionsLists" bindLabel="name" bindValue="id" [multiple]="true"
+                    placeholder="add collections" formControlName="userCollectionAccess">
+                </ng-select>
+        
+            </div>
+
+        </div>
+
+        <!-- <div *ngIf="collectionConfig.key == 'schema'">
+            <forms-schema-builder (newItemEvent)="tableFieldsList($event)"></forms-schema-builder>
+            <app-dynamic-form-datatable [tabledata]="formSchemaJson"  ></app-dynamic-form-datatable>
+        </div> -->
+    </ng-container>
+
+    <button type="submit" class="btn btn-primary">Save Collection</button>
+</form>

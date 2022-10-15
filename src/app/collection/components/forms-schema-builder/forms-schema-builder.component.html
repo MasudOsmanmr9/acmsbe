@@ -1,0 +1,125 @@
+<p>fieldtypebuilder Page</p>
+
+<button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  Create Collection
+</button>
+
+<button type="button" class="btn btn-primary me-2" (click)="showNewForm()">showNewForm</button>
+<button type="button" class="btn btn-primary" (click)="clearCollection()">Clear COllection</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Select Field</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body d-flex flex-wrap">
+        <button *ngFor="let button of buttonList; let i = index;" (click)="showSchemaModal(buttonList[i])" type="button"
+          class="btn btn-outline-primary w-25 mx-2 my-2" >{{button
+          | uppercase}}</button>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+
+
+<button #schemaModalButton data-bs-toggle="modal" data-bs-target="#exampleModal" hidden type="button"></button>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+
+        <form [formGroup]="formGroupHolder" (submit)="submitForm()">
+          <div
+            *ngIf="['text','textarea','tel','password','email','number','search','url','checkbox','toogle','select'].includes(schemaType)"
+            class="input-schemas">
+
+            <ul ngbNav #nav="ngbNav" class="nav-tabs">
+              <li ngbNavItem>
+                <a ngbNavLink>Configure</a>
+                <ng-template ngbNavContent>
+                  <ng-container *ngFor="let buttonConfig of buttonConfigSchema | keyvalue">
+                    <!-- {{['text','textarea','tel','password','email','numbner','search','url'].includes(formSchema.type)}}{{formSchema.type}} -->
+
+                    <div class="mb-3" *ngIf="['name','label','value'].includes(buttonConfig.key)">
+                      <label class="form-label">{{buttonConfig.key}} <span class="text-danger"
+                          *ngIf="formGroupHolder.get(buttonConfig.key)?.hasError('required')">*</span></label>
+                      <input type="text" [formControlName]="buttonConfig.key" class="form-control"
+                        placeholder="Example input placeholder">
+                      <span class="text-danger"
+                        *ngIf="errorShowOnSubmit && formGroupHolder.get(buttonConfig.key)?.hasError('required')">this
+                        filed is required</span>
+                    </div>
+                    <div class="mb-3" *ngIf="buttonConfig.key === 'type'">
+                      <label class="form-label">{{buttonConfig.key}} <span class="text-danger"
+                          *ngIf="formGroupHolder.get(buttonConfig.key)?.hasError('required')">*</span></label>
+                      <input type="text" style="background-color: #deded6e3;" [formControlName]="buttonConfig.key"
+                        [readonly]="true" class="form-control">
+                    </div>
+                    <div class="mb-3" *ngIf="buttonConfig.key === 'selectOptions' && schemaType == 'select' ">
+                      <ng-select [items]="[]"  [addTag]="true" [multiple]="true"
+                        placeholder="add select options" [formControlName]="buttonConfig.key">
+                      </ng-select>
+
+                    </div>
+                  </ng-container>
+                </ng-template>
+              </li>
+              <li ngbNavItem *ngIf="!['select'].includes(schemaType)">
+                <a ngbNavLink>Validation</a>
+                <ng-template ngbNavContent>
+                  <div *ngIf="buttonConfigSchema['validatopt'] != null" formGroupName="validatopt">
+                    <ng-container *ngFor="let validatopt of buttonConfigSchema['validatopt']">
+                      <div class="mb-3" *ngIf="validatopt.key === 'required'">
+                        <input type="checkbox" value="" id="{{validatopt.key}}" [formControlName]="validatopt.key"
+                          class="form-check-input me-2">
+                        <label class="form-check-label" [for]="validatopt.key">{{validatopt.key}}</label>
+                      </div>
+
+                      <div class="mb-3" *ngIf="['minLength','maxLength'].includes(validatopt.key)">
+
+                        <div class="d-flex">
+                          <input [type]="validatopt.value.type" [checked]="validatopt.value.show"
+                            (change)="validatopt.value.show = !validatopt.value.show" class="form-check-input me-2">
+                          <label class="form-label">{{validatopt.key}}</label>
+                        </div>
+                        <input *ngIf="validatopt.value.show" [type]="validatopt.inputOpt.type"
+                          [formControlName]="validatopt.key" class="form-control"
+                          [placeholder]="validatopt.inputOpt.placeholder">
+
+                      </div>
+
+                    </ng-container>
+                  </div>
+                </ng-template>
+              </li>
+            </ul>
+
+            <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+          </div>
+
+          <button type="submit" class="btn btn-primary">Save Config</button>
+        </form>
+
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</div>

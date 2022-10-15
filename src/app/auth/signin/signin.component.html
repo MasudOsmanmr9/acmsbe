@@ -1,0 +1,61 @@
+<div id="auth">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5 col-sm-12 mx-auto">
+          <div class="card pt-4">
+            <div class="card-body">
+              <div class="text-center mb-5">
+                <img src="assets/images/mn.png" alt="" height="48" class="mb-4" />
+                <h3>Sign In</h3>
+                <p>Please sign in to continue to EFGT_CMS.</p>
+              </div>
+              <form [formGroup]="signInForm" (ngSubmit)="signin()">
+                <div class="form-group position-relative has-icon-left">
+                  <label for="useremail">userEmail</label>
+                  <div class="position-relative">
+                    <input type="text" class="form-control" id="useremail" formControlName="useremail" />
+                    <div class="form-control-icon">
+                      <i data-feather="user"></i>
+                    </div>
+                  </div>
+                  <span class="text-danger" *ngIf="submitted && signInForm.controls.useremail.errors?.required"> Please enter useremail. </span>
+                  <span class="text-danger" *ngIf="submitted && signInForm.controls.useremail.errors?.minlength"> useremail must be at least 5 characters long </span>
+                </div>
+                <div class="form-group position-relative has-icon-left">
+                  <div class="clearfix">
+                    <label for="userpassword">userpassword</label>
+                    <!-- <a href="auth-forgot-userpassword.html" class="float-end">
+                                          <small>Forgot userpassword?</small>
+                                      </a> -->
+                  </div>
+                  <div class="position-relative">
+                    <input type="userpassword" class="form-control" id="userpassword" formControlName="userpassword" />
+                    <div class="form-control-icon">
+                      <i data-feather="lock"></i>
+                    </div>
+                  </div>
+                  <span class="text-danger" *ngIf="submitted && signInForm.controls.userpassword.errors?.required"> Please enter userpassword. </span>
+                  <span class="text-danger" *ngIf="submitted && signInForm.controls.userpassword.errors?.minlength"> userpassword must be at least 6 characters long</span>
+  
+                </div>
+  
+                <div class="form-check clearfix my-4">
+                  <div class="checkbox float-start">
+                    <input type="checkbox" id="checkbox1" class="form-check-input" formControlName="remember" />
+                    <label for="checkbox1">Remember me</label>
+                  </div>
+                  <div class="float-end">
+                    <!-- <a href="auth-register.html">Don"t have an account?</a> -->
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <button class="btn btn-primary float-end" type="submit">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

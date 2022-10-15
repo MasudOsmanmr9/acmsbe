@@ -1,0 +1,11 @@
+<p>user-list works!!!</p>
+<div class="d-flex justify-content-end">
+    <a routerLink="/user/create" class="btn btn-primary">Create User</a>
+</div>
+<app-dynamic-form-datatable 
+*ngIf="usersLists.length"
+[includeHeaders]="fieldsPermission" 
+[tabledata]="usersLists" 
+[editFunc]="userEditf"
+    [deleteFunc]="userDeletef"
+    ></app-dynamic-form-datatable>

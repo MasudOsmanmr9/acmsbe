@@ -1,0 +1,70 @@
+
+<hr>
+<div class="card">
+  <div class="card-body">
+    <div class="container-fluid">
+      <div class="page-title">
+        <h3>Table</h3>
+        <p class="text-subtitle text-muted">A good table to display your data</p>
+      </div>
+      <section class="section">
+        <div class="card">
+          <div class="card-body">
+            <ngx-datatable columnMode="flex" class="material striped" class="second-table" *ngIf="headers[0] != null" [columnMode]="'force'" [rows]="rows" [columns]="headers">
+              
+              <ng-container *ngFor="let header of headers">
+                <ngx-datatable-column [name]="header.name" [prop]='header.name' >
+                </ngx-datatable-column>
+              </ng-container>
+  
+              <ngx-datatable-column *ngIf="editFunc!=null || deleteFunc!=null" name="Actions" prop="edit">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                                 let-row="row">
+                                                 <button *ngIf="editFunc!=null" type="button" class="btn btn-outline-success"
+                                                     (click)='edit(row)'>Success {{rowIndex}}</button>
+                                                 <button *ngIf="deleteFunc!=null" type="button" class="btn btn-outline-danger"
+                                                     (click)='delete(row)'>Danger</button>
+             
+             
+                           </ng-template>
+                       </ngx-datatable-column>
+
+
+
+
+            </ngx-datatable>
+            <!-- <ngx-datatable
+              #table
+              class="material striped"
+              [rows]="rows"
+              [columnMode]="'force'"
+              [headerHeight]="headerHeight"
+              [footerHeight]="50"
+              [loadingIndicator]="isLoading"
+              [rowHeight]="'auto'"
+              [externalPaging]="false"
+              [count]="totalRows"
+              [offset]="pageNumber"
+              [limit]="pageSize"
+              (page)="setPage($event)"
+              (activate)="onActivate($event)"
+              style="box-shadow: none; padding: 0; cursor: pointer">
+              <ng-container *ngFor="let r of rows">
+                <ngx-datatable-column  [width]="250" name="{{r.key}}" [sortable]="false">
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ r.value }}
+                  </ng-template>
+                </ngx-datatable-column>
+              </ng-container>
+              <ngx-datatable-column *ngIf="screenSize > 1080" name="BankShortCode" [sortable]="false">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.BankShortCode }}
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable> -->
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,108 @@
+<div class="reactive-form">
+    <!-- <h1>SOmthing printing</h1> -->
+    <button type="button" class="btn btn-primary me-2" (click)="goTopage('/collections/collection-create')"
+        data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Create Collection
+    </button>
+    <form *ngIf="formSchemas != null && formSchemas[0]!=null" [formGroup]="formGroupHolder" (submit)="submitForm()">
+        <ng-container *ngFor="let formSchema of formSchemas">
+            <!-- {{['text','textarea','tel','password','email','numbner','search','url'].includes(formSchema.type)}}{{formSchema.type}} -->
+
+            <div class="mb-3"
+                *ngIf="['text','tel','password','email','number','search','url'].includes(formSchema.type)">
+                <label class="form-label">{{formSchema.label}}</label>
+                <input [type]="formSchema.type" [name]="formSchema.name" class="form-control"
+                    placeholder="Example input placeholder" [formControlName]="formSchema.name">
+                <span class="text-danger"
+                    *ngIf="errorShowOnSubmit && formGroupHolder.get(formSchema.name)?.hasError('required')">this filed
+                    is required</span>
+                <!-- <span class="text-danger" *ngIf="formGroupHolder.get(formSchema.name)?.hasError('minlength')">this filed is 10 char</span> -->
+                <!-- {{formGroupHolder.controls[formSchema.name].errors!['minLength']}} -->
+                <span class="text-danger"
+                    *ngIf="errorShowOnSubmit && formGroupHolder.controls[formSchema.name].errors && formGroupHolder.controls[formSchema.name].errors!['minlength']">this
+                    field needs minimum
+                    {{formGroupHolder.controls[formSchema.name].errors!['minlength']['requiredLength']}}
+                    charectars</span>
+                <span class="text-danger"
+                    *ngIf="errorShowOnSubmit && formGroupHolder.controls[formSchema.name].errors && formGroupHolder.controls[formSchema.name].errors!['maxlength']">you
+                    can give maximum
+                    {{formGroupHolder.controls[formSchema.name].errors!['maxlength']['requiredLength']}}
+                    charectars</span>
+            </div>
+            <div class="mb-3" *ngIf="formSchema.type === 'textarea'">
+                <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                    [formControlName]="formSchema.name"></textarea>
+                <span class="text-danger"
+                    *ngIf="errorShowOnSubmit && formGroupHolder.get(formSchema.name)?.hasError('required')">this filed
+                    is required</span>
+                <span class="text-danger"
+                    *ngIf="errorShowOnSubmit && formGroupHolder.controls[formSchema.name].errors && formGroupHolder.controls[formSchema.name].errors!['minlength']">this
+                    field needs minimum
+                    {{formGroupHolder.controls[formSchema.name].errors!['minlength']['requiredLength']}}
+                    charectars</span>
+                <span class="text-danger"
+                    *ngIf="errorShowOnSubmit && formGroupHolder.controls[formSchema.name].errors && formGroupHolder.controls[formSchema.name].errors!['maxlength']">you
+                    can give maximum
+                    {{formGroupHolder.controls[formSchema.name].errors!['maxlength']['requiredLength']}}
+                    charectars</span>
+            </div>
+            <div class="form-check" *ngIf="formSchema.type === 'checkbox'">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                    [formControlName]="formSchema.name">
+                <label class="form-check-label" for="flexCheckDefault">
+                    {{formSchema.label}}
+                </label>
+                <span class="text-danger"
+                    *ngIf="errorShowOnSubmit && formGroupHolder.get(formSchema.name)?.hasError('required')">this filed
+                    is required</span>
+            </div>
+            <!-- <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd"
+                       name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+              </div> -->
+            <div class="form-check" *ngIf="formSchema.type === 'radio'">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                    [formControlName]="formSchema.name">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    {{formSchema.label}}
+                </label>
+                <span class="text-danger"
+                    *ngIf="errorShowOnSubmit && formGroupHolder.get(formSchema.name)?.hasError('required')">this filed
+                    is required</span>
+            </div>
+            <!-- <div *ngIf="formSchema.type === 'range'">
+                <label for="customRange1" class="form-label">Example range</label>
+                <input type="range" class="form-range" id="customRange1">
+            </div> -->
+            <div class="form-check form-switch" *ngIf="formSchema.type === 'toggle'">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked
+                    [formControlName]="formSchema.name">
+                <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
+            </div>
+            <div *ngIf="formSchema.type === 'select'">
+                <!-- <div *ngIf="formSchema"></div> -->
+                <ng-select [items]="formSchema.selectOptions!" bindLabel="name" [formControlName]="formSchema.name"
+                    placeholder="Select city">
+                </ng-select>
+            </div>
+            <div *ngIf="formSchema.type === 'date'">
+                <!-- <div *ngIf="formSchema"></div> -->
+                <ng-select [items]="formSchema.selectOptions!" bindLabel="name" [formControlName]="formSchema.name"
+                    placeholder="Select city">
+                </ng-select>
+                <input class="form-control" type="date" [value]="formSchema.value" [formControlName]="formSchema.name"
+                    id="example-date-input" />
+            </div>
+            <!-- <ng-template [ngIf]="'five' === 'five'">Mausd Osman</ng-template> -->
+            <!-- <ng-template *ngIf="true then abc"></ng-template> -->
+            <!-- <ng-template #abc>Mausd Osman Gani</ng-template> -->
+
+        </ng-container>
+        <!-- <input type="date" [ngModel] ="dt | date:'yyyy-MM-dd'" (ngModelChange)="dt = $event">
+        {{dt}} -->
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+
+</div>
